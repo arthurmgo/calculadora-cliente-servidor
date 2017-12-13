@@ -1,46 +1,42 @@
 package ServidorPrincipal;
 
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.Socket;
 import java.util.Scanner;
 
-public class TrataCliente implements Runnable {
+public class TrataCliente extends Thread {
 
-    private InputStream cliente;
+
+    private InputStream in;
+    private OutputStream out;
     private Servidor servidor;
 
-    public TrataCliente(InputStream cliente, Servidor servidor) {
-        this.cliente = cliente;
+
+
+    public TrataCliente(Socket cliente, Servidor servidor) throws IOException {
+        this.in = cliente.getInputStream();
+        this.out = cliente.getOutputStream();
         this.servidor = servidor;
     }
 
-    private static Integer realizaOperacao(Integer n1, Integer n2, String op) throws
-            ArithmeticException {
-        switch (op) {
-            case "+": // Em caso do operador ser um "+"
-                return n1 + n2;
-            case "-": // Em caso do operador ser um "-"
-                return n1 - n2;
-            case "*": // Em caso do operador ser um "*"
-                return n1 * n2;
-            case "/": // Em caso do operador ser um "/"
-                if (n2 == 0) {
-                    throw new ArithmeticException("O divisor nao pode ser 0 !"); //Caso o segundo numero seja 0 e o operador seja "/"
 
-                }
-                return n1 / n2;
-            default:
-                return null;
-
-        }
-    }
 
     public void run() {
-        // quando chegar uma msg, distribui pra todos
-        Scanner s = new Scanner(this.cliente);
-        while (s.hasNextLine()) {
-            servidor.distribuiMensagem(s.nextLine());
-        }
+
+        Scanner s = new Scanner(this.in);
+        PrintStream ps = new PrintStream(this.out);
+
+        int x = Integer.parseInt(s.nextLine());
+        int y = Integer.parseInt(s.nextLine());
+        String op = s.nextLine();
+
+        Integer resp = servidor.realizaOperacao(x,y,op);
+        ps.println(resp);
+
         s.close();
     }
 }

@@ -7,9 +7,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Cliente {
-    public static void main(String[] args)
-            throws UnknownHostException, IOException {
-        // dispara cliente
+    public static void main(String[] args) throws UnknownHostException, IOException {
         new Cliente("127.0.0.1", 12345).executa();
     }
 

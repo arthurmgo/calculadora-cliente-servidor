@@ -1,25 +1,20 @@
 package ServidorPrincipal;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Servidor {
 
     public static void main(String[] args) throws IOException {
-        // inicia o servidor
         new Servidor(12345).executa();
     }
 
     private int porta;
-    private List<PrintStream> clientes;
+
 
     public Servidor (int porta) {
         this.porta = porta;
-        this.clientes = new ArrayList<PrintStream>();
     }
 
     public void executa () throws IOException {
@@ -27,29 +22,39 @@ public class Servidor {
         System.out.println("Porta 12345 aberta!");
 
         while (true) {
-            // aceita um cliente
-            Socket cliente = servidor.accept();
-            System.out.println("Nova conexão com o cliente " +
-                    cliente.getInetAddress().getHostAddress()
-            );
 
-            // adiciona saida do cliente à lista
-            PrintStream ps = new PrintStream(cliente.getOutputStream());
-            this.clientes.add(ps);
+            Socket cliente = servidor.accept();
+            System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
+
 
             // cria tratador de cliente numa nova thread
-            TrataCliente tc =
-                    new TrataCliente(cliente.getInputStream(), this);
-            new Thread(tc).start();
+            TrataCliente tc = new TrataCliente(cliente, this);
+            tc.start();
         }
 
     }
 
-    public void distribuiMensagem(String msg) {
-        // envia msg para todo mundo
-        for (PrintStream cliente : this.clientes) {
-            cliente.println(msg);
+
+    public Integer realizaOperacao(Integer n1, Integer n2, String op) throws
+            ArithmeticException {
+        switch (op) {
+            case "+": // Em caso do operador ser um "+"
+                return n1 + n2;
+            case "-": // Em caso do operador ser um "-"
+                return n1 - n2;
+            case "*": // Em caso do operador ser um "*"
+                return n1 * n2;
+            case "/": // Em caso do operador ser um "/"
+                if (n2 == 0) {
+                    throw new ArithmeticException("O divisor nao pode ser 0 !"); //Caso o segundo numero seja 0 e o operador seja "/"
+
+                }
+                return n1 / n2;
+            default:
+                return null;
+
         }
     }
+
 }
 
