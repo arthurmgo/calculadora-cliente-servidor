@@ -21,15 +21,19 @@ public abstract class ServidorOp {
         ServerSocket servidor = new ServerSocket(this.porta);
         System.out.println("Porta " + this.porta + " aberta");
 
+        Socket cliente = servidor.accept();
+        System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
+
+        System.out.println();
+
+
+        Scanner s = new Scanner(cliente.getInputStream());
+        PrintStream ps = new PrintStream(cliente.getOutputStream());
+
         while (true) {
 
-            Socket cliente = servidor.accept();
-            Scanner s = new Scanner(cliente.getInputStream());
-            PrintStream ps = new PrintStream(cliente.getOutputStream());
-
-            int x = s.nextInt();
-            int y = s.nextInt();
-
+            int x = Integer.parseInt(s.nextLine());
+            int y = Integer.parseInt(s.nextLine());
             int resp = op(x,y);
 
             ps.println(resp);

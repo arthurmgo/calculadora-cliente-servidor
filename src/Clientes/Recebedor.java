@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 
-public class Recebedor implements Runnable {
+public class Recebedor extends Thread{
 
     private InputStream servidor;
 
@@ -13,7 +13,6 @@ public class Recebedor implements Runnable {
     }
 
     public void run() {
-        // recebe msgs do servidor e imprime na tela
 
         Scanner s = new Scanner(this.servidor);
         while (s.hasNextLine()) {

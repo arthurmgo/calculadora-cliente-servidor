@@ -3,11 +3,10 @@ package Clientes;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Cliente {
-    public static void main(String[] args) throws UnknownHostException, IOException {
+    public static void main(String[] args) throws IOException {
         new Cliente("127.0.0.1", 12345).executa();
     }
 
@@ -19,19 +18,26 @@ public class Cliente {
         this.porta = porta;
     }
 
-    public void executa() throws UnknownHostException, IOException {
+    public void executa() throws  IOException {
         Socket cliente = new Socket(this.host, this.porta);
         System.out.println("O cliente se conectou ao servidor!");
 
         // thread para receber mensagens do servidor
         Recebedor r = new Recebedor(cliente.getInputStream());
-        new Thread(r).start();
+        r.start();
 
-        // lê msgs do teclado e manda pro servidor
+
         Scanner teclado = new Scanner(System.in);
         PrintStream saida = new PrintStream(cliente.getOutputStream());
+
+
         while (teclado.hasNextLine()) {
-            saida.println(teclado.nextLine());
+            String s = teclado.nextLine();
+            saida.println(s);
+
+            if (s.equals("quit")){
+                break;
+            }
         }
 
         saida.close();
