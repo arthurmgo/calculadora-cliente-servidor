@@ -1,6 +1,6 @@
 package ServidorPrincipal;
 
-public class Expressao {
+public class Expressao{
 
     private Integer x;
     private Integer y;
@@ -16,7 +16,6 @@ public class Expressao {
 
         String s = st.replaceAll("\\s", "");
 
-        System.out.println(s);
 
         if(s.contains("+")){
             this.x  = Integer.parseInt(s.substring(0, s.lastIndexOf("+")));
@@ -52,5 +51,31 @@ public class Expressao {
 
     public String getOp() {
         return op;
+    }
+
+    @Override
+    public String toString() {
+        return x.toString() + op + y.toString();
+    }
+
+    @Override
+    public boolean equals(Object expr) {
+
+
+        if((expr == null) || (getClass() != expr.getClass())){
+            System.out.printf("AQUI");
+            return false;
+
+        }
+        else{
+            Expressao exprNova = (Expressao) expr;
+            return this.op.equals(exprNova.getOp()) && this.x == exprNova.getX() && this.y == exprNova.getY();
+        }
+
+    }
+
+    @Override
+    public int hashCode() {
+        return x.hashCode() + y.hashCode() + op.hashCode();
     }
 }

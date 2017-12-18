@@ -10,6 +10,8 @@ public class Servidor {
 
     private int porta;
 
+    private Cache cache;
+
     private Socket som;
     private Socket sub;
     private Socket mul;
@@ -17,6 +19,9 @@ public class Servidor {
 
     public Servidor (int porta) {
         this.porta = porta;
+
+        this.cache = new Cache(5);
+
         try {
             this.som = new Socket("127.0.0.1", 10001);
             System.out.println("O cliente se conectou ao servidor soma!");
@@ -93,31 +98,43 @@ public class Servidor {
 
     }
 
-    public Integer realizaOperacao(Integer n1, Integer n2, String op) throws ArithmeticException {
+    public Integer realizaOperacao(Expressao expr) throws ArithmeticException {
+
+        String op = expr.getOp();
+        Integer n1 = expr.getX();
+        Integer n2 = expr.getY();
+
+        Integer resp = this.cache.get(expr);
+
+        if(resp != null){
+            System.out.printf("ACESSO AO CACHE");
+            return resp;
+        }
 
         switch (op) {
-
             case "+":
-                return enviaMsg(n1,n2,this.som);
-
+                resp = enviaMsg(n1,n2,this.som);
+                System.out.println(resp);
+                break;
             case "-":
-                return enviaMsg(n1,n2,this.sub);
-
+                resp =  enviaMsg(n1,n2,this.sub);
+                break;
             case "*":
-                return enviaMsg(n1,n2,this.mul);
-
+                resp =  enviaMsg(n1,n2,this.mul);
+                break;
             case "/":
-
                 if (n2 == 0) {
                     throw new ArithmeticException("O divisor nao pode ser 0 !");
                 }
-
-                return enviaMsg(n1,n2,this.div);
-
+                resp =  enviaMsg(n1,n2,this.div);
+                break;
             default:
                 return null;
 
         }
+
+        cache.put(expr,resp);
+        return resp;
     }
 
     public static void main(String[] args) {

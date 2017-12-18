@@ -41,7 +41,8 @@ public class TrataCliente extends Thread {
             }
 
             Expressao ex = new Expressao(line);
-            Integer resp = servidor.realizaOperacao(ex.getX(), ex.getY(), ex.getOp());
+            Integer resp = servidor.realizaOperacao(ex);
+
             ps.println(resp);
 
 
