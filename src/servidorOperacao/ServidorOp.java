@@ -1,4 +1,6 @@
-package ServidorOperacao;
+package servidorOperacao;
+
+import logger.Logger;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -9,6 +11,7 @@ import java.util.Scanner;
 public abstract class ServidorOp {
 
     private int porta;
+    private Logger logger = new Logger("ServerOP_" + this.getClass().getName() + ".txt");
 
     public ServidorOp(int porta) {
         this.porta = porta;
@@ -20,9 +23,11 @@ public abstract class ServidorOp {
 
         ServerSocket servidor = new ServerSocket(this.porta);
         System.out.println("Porta " + this.porta + " aberta");
+        logger.writeLog("Porta " + this.porta + " aberta");
 
         Socket cliente = servidor.accept();
         System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
+        logger.writeLog("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
 
         System.out.println();
 

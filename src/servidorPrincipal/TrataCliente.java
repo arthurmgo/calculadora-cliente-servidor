@@ -1,5 +1,4 @@
-package ServidorPrincipal;
-
+package servidorPrincipal;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,18 +9,21 @@ import java.util.Scanner;
 
 public class TrataCliente extends Thread {
 
-
     private InputStream in;
     private OutputStream out;
     private Servidor servidor;
     private Socket cliente;
+    private int id;
 
 
     public TrataCliente(Socket cliente, Servidor servidor) throws IOException {
+
         this.cliente = cliente;
         this.in = cliente.getInputStream();
         this.out = cliente.getOutputStream();
         this.servidor = servidor;
+        this.id = servidor.getClientes();
+
     }
 
 
@@ -31,19 +33,28 @@ public class TrataCliente extends Thread {
         PrintStream ps = new PrintStream(this.out);
 
 
-
-        while (true){
+        while (true) {
 
             String line = s.nextLine();
+            servidor.getLogger().writeLog("[Thread " + this.id + " INFO] Mensagem recebida do cliente: " + line);
 
-            if (line.equals("quit")){
+            if (line.equals("quit")) {
+
                 break;
             }
 
             Expressao ex = new Expressao(line);
-            Integer resp = servidor.realizaOperacao(ex);
+            try {
+                Integer resp = servidor.realizaOperacao(ex);
+                ps.println(resp);
+                servidor.getLogger().writeLog("[Thread " + this.id + " INFO] Mensagem enviada ao cliente: " + resp);
+            }catch (ArithmeticException e){
+                ps.println("Divisão por 0 não suportada");
+                servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Divisão por 0");
+            }
 
-            ps.println(resp);
+
+
 
 
 
@@ -54,8 +65,9 @@ public class TrataCliente extends Thread {
 
         try {
             cliente.close();
+            servidor.getLogger().writeLog("[Thread " + this.id + " INFO] Conexão com o cliente " + this.id + " fechada");
         } catch (IOException e) {
-            e.printStackTrace();
+            servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Erro ao fechar conexão com o cliente " + this.id );
         }
 
 

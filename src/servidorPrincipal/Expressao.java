@@ -1,4 +1,4 @@
-package ServidorPrincipal;
+package servidorPrincipal;
 
 public class Expressao{
 
@@ -23,6 +23,7 @@ public class Expressao{
             this.op = "+";
 
         }else if(s.contains("-")){
+            System.out.println("Ë uma subtracao");
             this.x  = Integer.parseInt(s.substring(0, s.lastIndexOf("-")));
             this.y  = Integer.parseInt(s.substring(s.lastIndexOf("-") + 1));
             this.op = "-";
@@ -60,18 +61,13 @@ public class Expressao{
 
     @Override
     public boolean equals(Object expr) {
-
-
         if((expr == null) || (getClass() != expr.getClass())){
-            System.out.printf("AQUI");
             return false;
-
         }
         else{
             Expressao exprNova = (Expressao) expr;
             return this.op.equals(exprNova.getOp()) && this.x == exprNova.getX() && this.y == exprNova.getY();
         }
-
     }
 
     @Override

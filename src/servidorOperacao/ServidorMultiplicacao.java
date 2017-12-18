@@ -1,4 +1,4 @@
-package ServidorOperacao;
+package servidorOperacao;
 
 import java.io.IOException;
 

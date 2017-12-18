@@ -1,4 +1,4 @@
-package ServidorPrincipal;
+package servidorPrincipal;
 
 
 import java.util.LinkedHashMap;
@@ -14,19 +14,10 @@ public class Cache extends LinkedHashMap<Expressao, Integer> {
         this.maxSize = capacity;
     }
 
-//    //return -1 if miss
-//    public int get(Expressao key) {
-//        Integer v = super.get(key);
-//        return v == null ? -1 : v;
-//    }
-
-//    public void put(Expressao key, int value) {
-//        super.put(key, value);
-//    }
 
     @Override
     protected boolean removeEldestEntry(Map.Entry<Expressao, Integer> eldest) {
-        return this.size() > maxSize; //must override it if used in a fixed cache
+        return this.size() > maxSize;
     }
 
 
