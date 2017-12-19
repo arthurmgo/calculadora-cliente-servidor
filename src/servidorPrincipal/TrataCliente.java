@@ -137,10 +137,10 @@ public class TrataCliente extends Thread {
                 } catch (ArithmeticException e) {
                     ps.println("Divisão por 0 não suportada");
                     servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Divisão por 0");
-                } catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     ps.println("Expressão com formato invalido");
                     servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Expressão com formato invalido (parametros)");
-                } catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     ps.println("Expressão invalida");
                     servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Expressão com formato invalido (operação)");
 
