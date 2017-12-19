@@ -13,7 +13,7 @@ public class Logger {
     private String fileName;
     DateFormat dateFormat;
     Date date;
-    public static String SEPARATOR = File.pathSeparator;
+    public static String SEPARATOR = File.separator;
 
     public Logger(String fileName) {
 
