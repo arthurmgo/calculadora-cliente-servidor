@@ -1,11 +1,12 @@
 package cliente;
 
-import java.io.InputStream;
-import java.util.Scanner;
 import logger.Logger;
 
+import java.io.InputStream;
+import java.util.Scanner;
 
-public class Recebedor extends Thread{
+
+public class Recebedor extends Thread {
 
     private InputStream servidor;
 

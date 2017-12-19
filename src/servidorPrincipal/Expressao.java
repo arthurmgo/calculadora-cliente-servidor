@@ -1,6 +1,6 @@
 package servidorPrincipal;
 
-public class Expressao{
+public class Expressao {
 
     private Integer x;
     private Integer y;
@@ -12,30 +12,29 @@ public class Expressao{
         this.op = op;
     }
 
-    public Expressao(String st){
+    public Expressao(String st) {
 
         String s = st.replaceAll("\\s", "");
 
 
-        if(s.contains("+")){
-            this.x  = Integer.parseInt(s.substring(0, s.lastIndexOf("+")));
-            this.y  = Integer.parseInt(s.substring(s.lastIndexOf("+") + 1));
+        if (s.contains("+")) {
+            this.x = Integer.parseInt(s.substring(0, s.lastIndexOf("+")));
+            this.y = Integer.parseInt(s.substring(s.lastIndexOf("+") + 1));
             this.op = "+";
 
-        }else if(s.contains("-")){
-            System.out.println("Ë uma subtracao");
-            this.x  = Integer.parseInt(s.substring(0, s.lastIndexOf("-")));
-            this.y  = Integer.parseInt(s.substring(s.lastIndexOf("-") + 1));
+        } else if (s.contains("-")) {
+            this.x = Integer.parseInt(s.substring(0, s.lastIndexOf("-")));
+            this.y = Integer.parseInt(s.substring(s.lastIndexOf("-") + 1));
             this.op = "-";
 
-        }else if(s.contains("*")){
-            this.x  = Integer.parseInt(s.substring(0, s.lastIndexOf("*")));
-            this.y  = Integer.parseInt(s.substring(s.lastIndexOf("*") + 1));
+        } else if (s.contains("*")) {
+            this.x = Integer.parseInt(s.substring(0, s.lastIndexOf("*")));
+            this.y = Integer.parseInt(s.substring(s.lastIndexOf("*") + 1));
             this.op = "*";
 
-        }else if(s.contains("/")){
-            this.x  = Integer.parseInt(s.substring(0, s.lastIndexOf("/")));
-            this.y  = Integer.parseInt(s.substring(s.lastIndexOf("/") + 1));
+        } else if (s.contains("/")) {
+            this.x = Integer.parseInt(s.substring(0, s.lastIndexOf("/")));
+            this.y = Integer.parseInt(s.substring(s.lastIndexOf("/") + 1));
             this.op = "/";
 
         }
@@ -61,10 +60,9 @@ public class Expressao{
 
     @Override
     public boolean equals(Object expr) {
-        if((expr == null) || (getClass() != expr.getClass())){
+        if ((expr == null) || (getClass() != expr.getClass())) {
             return false;
-        }
-        else{
+        } else {
             Expressao exprNova = (Expressao) expr;
             return this.op.equals(exprNova.getOp()) && this.x == exprNova.getX() && this.y == exprNova.getY();
         }
