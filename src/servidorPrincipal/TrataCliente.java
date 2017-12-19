@@ -1,26 +1,21 @@
 package servidorPrincipal;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class TrataCliente extends Thread {
 
-    private InputStream in;
-    private OutputStream out;
+
     private Servidor servidor;
     private Socket cliente;
     private int id;
 
 
-    public TrataCliente(Socket cliente, Servidor servidor) throws IOException {
+    public TrataCliente(Socket cliente, Servidor servidor) {
 
         this.cliente = cliente;
-        this.in = cliente.getInputStream();
-        this.out = cliente.getOutputStream();
         this.servidor = servidor;
         this.id = servidor.getClientes();
 
@@ -29,45 +24,50 @@ public class TrataCliente extends Thread {
 
     public void run() {
 
-        Scanner s = new Scanner(this.in);
-        PrintStream ps = new PrintStream(this.out);
+
+        try {
+
+            Scanner s = new Scanner(this.cliente.getInputStream());
+            PrintStream ps = new PrintStream(this.cliente.getOutputStream());
 
 
-        while (true) {
+            while (true) {
 
-            String line = s.nextLine();
-            servidor.getLogger().writeLog("[Thread " + this.id + " INFO] Mensagem recebida do cliente: " + line);
+                String line = s.nextLine();
+                servidor.getLogger().writeLog("[Thread " + this.id + " INFO] Mensagem recebida do cliente: " + line);
 
-            if (line.equals("quit")) {
+                if (line.equals("quit")) {
 
-                break;
+                    break;
+                }
+
+                Expressao ex = new Expressao(line);
+
+                
+                try {
+                    Integer resp = servidor.realizaOperacao(ex);
+                    ps.println(resp);
+                    servidor.getLogger().writeLog("[Thread " + this.id + " INFO] Mensagem enviada ao cliente: " + resp);
+                } catch (ArithmeticException e) {
+                    ps.println("Divisão por 0 não suportada");
+                    servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Divisão por 0");
+                }
+
+
             }
+            s.close();
+            ps.close();
 
-            Expressao ex = new Expressao(line);
-            try {
-                Integer resp = servidor.realizaOperacao(ex);
-                ps.println(resp);
-                servidor.getLogger().writeLog("[Thread " + this.id + " INFO] Mensagem enviada ao cliente: " + resp);
-            }catch (ArithmeticException e){
-                ps.println("Divisão por 0 não suportada");
-                servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Divisão por 0");
-            }
-
-
-
-
-
-
+        } catch (IOException e) {
+            servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Erro ao obter stream de comunicação com o cliente " + this.id);
         }
 
-        s.close();
-        ps.close();
 
         try {
             cliente.close();
             servidor.getLogger().writeLog("[Thread " + this.id + " INFO] Conexão com o cliente " + this.id + " fechada");
         } catch (IOException e) {
-            servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Erro ao fechar conexão com o cliente " + this.id );
+            servidor.getLogger().writeLog("[Thread " + this.id + " ERROR] Erro ao fechar conexão com o cliente " + this.id);
         }
 
 
