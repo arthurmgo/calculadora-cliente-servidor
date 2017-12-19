@@ -13,7 +13,7 @@ public class Logger {
     private String fileName;
     DateFormat dateFormat;
     Date date;
-
+    public static String SEPARATOR = File.pathSeparator;
 
     public Logger(String fileName) {
 
@@ -34,7 +34,7 @@ public class Logger {
 
 
         try {
-            FileWriter fw = new FileWriter("log\\" + this.fileName, true);
+            FileWriter fw = new FileWriter("log" + SEPARATOR + this.fileName, true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(dateFormat.format(date) + "  |  " + s);
             bw.newLine();
