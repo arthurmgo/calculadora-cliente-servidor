@@ -14,6 +14,6 @@ public class ServidorMultiplicacao extends ServidorOp {
 
     @Override
     public int op(int a, int b) {
-        return a*b;
+        return a * b;
     }
 }

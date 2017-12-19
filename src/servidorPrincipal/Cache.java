@@ -1,9 +1,7 @@
 package servidorPrincipal;
 
-
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 
 public class Cache extends LinkedHashMap<Expressao, Integer> {
 

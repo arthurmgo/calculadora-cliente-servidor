@@ -30,6 +30,19 @@ public class Servidor {
 
     }
 
+    public static void main(String[] args) {
+
+        Endereco serverlist[] = new Endereco[4];
+
+        serverlist[0] = new Endereco("127.0.0.1", 10001);
+        serverlist[1] = new Endereco("127.0.0.1", 10002);
+        serverlist[2] = new Endereco("127.0.0.1", 10003);
+        serverlist[3] = new Endereco("127.0.0.1", 10004);
+
+
+        new Servidor(12345, serverlist, 5).executa();
+
+    }
 
     public Logger getLogger() {
         return logger;
@@ -46,7 +59,6 @@ public class Servidor {
     public Endereco getServer(int id) {
         return serverList[id];
     }
-
 
     public void executa() {
 
@@ -71,20 +83,6 @@ public class Servidor {
         } catch (IOException e) {
             logger.writeLog("[ERROR] Erro ao criar o servidor");
         }
-
-    }
-
-    public static void main(String[] args) {
-
-        Endereco serverlist[] = new Endereco[4];
-
-        serverlist[0] = new Endereco("127.0.0.1", 10001);
-        serverlist[1] = new Endereco("127.0.0.1", 10002);
-        serverlist[2] = new Endereco("127.0.0.1", 10003);
-        serverlist[3] = new Endereco("127.0.0.1", 10004);
-
-
-        new Servidor(12345, serverlist, 5).executa();
 
     }
 

@@ -10,7 +10,7 @@ public class TrataClienteOP extends Thread {
     private Socket cliente;
     private ServidorOp servidor;
 
-    public TrataClienteOP(Socket cliente, ServidorOp servidor){
+    public TrataClienteOP(Socket cliente, ServidorOp servidor) {
         this.cliente = cliente;
         this.servidor = servidor;
     }
@@ -24,11 +24,11 @@ public class TrataClienteOP extends Thread {
             Scanner s = new Scanner(cliente.getInputStream());
             PrintStream ps = new PrintStream(cliente.getOutputStream());
 
-            while (true) {
+            while (s.hasNextLine()) {
 
                 int x = Integer.parseInt(s.nextLine());
                 int y = Integer.parseInt(s.nextLine());
-                int resp = servidor.op(x,y);
+                int resp = servidor.op(x, y);
 
                 ps.println(resp);
 
@@ -37,12 +37,9 @@ public class TrataClienteOP extends Thread {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
 
         }
-
-
-
 
 
     }

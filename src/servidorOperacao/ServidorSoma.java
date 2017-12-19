@@ -2,7 +2,7 @@ package servidorOperacao;
 
 import java.io.IOException;
 
-public class ServidorSoma extends ServidorOp{
+public class ServidorSoma extends ServidorOp {
 
     public ServidorSoma(int porta) {
         super(porta);
@@ -14,7 +14,6 @@ public class ServidorSoma extends ServidorOp{
 
     @Override
     public int op(int a, int b) {
-        System.out.println("FIZ UMA SOMA");
         return a + b;
     }
 }

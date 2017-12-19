@@ -14,17 +14,16 @@ public class Logger {
         this.fileName = fileName;
     }
 
-    public void writeLog(String s){
+    public void writeLog(String s) {
 
         File directory = new File("LOG");
 
-        if(!directory.exists())
+        if (!directory.exists())
             directory.mkdir();
 
 
-
         try {
-            FileWriter fw = new FileWriter( "LOG\\" + this.fileName, true);
+            FileWriter fw = new FileWriter("LOG\\" + this.fileName, true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(s);
             bw.newLine();
