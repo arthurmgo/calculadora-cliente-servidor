@@ -16,6 +16,9 @@ public class Recebedor extends Thread {
         this.servidor = servidor;
     }
 
+    /**
+     *  Faz a impressão das mensagem enviadas ao cliente
+     */
     public void run() {
 
         Scanner s = new Scanner(this.servidor);

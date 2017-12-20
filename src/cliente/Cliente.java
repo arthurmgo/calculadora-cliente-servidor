@@ -24,35 +24,44 @@ public class Cliente {
         new Cliente("127.0.0.1", 12345).executa();
     }
 
-    public void executa() throws IOException {
-        Socket cliente = new Socket(this.host, this.porta);
-        System.out.println("O cliente se conectou ao servidor!");
+    /**
+     * Metodo faz conexão a um servidor e envia mensagens a ele.
+     */
+    public void executa() {
+
+        try {
+            Socket cliente = new Socket(this.host, this.porta);
+            System.out.println("O cliente se conectou ao servidor!");
 
 
-        logger.writeLog("[INFO] O cliente se conectou ao servidor");
+            logger.writeLog("[INFO] O cliente se conectou ao servidor");
 
-        // thread para receber mensagens do servidor
-        Recebedor r = new Recebedor(cliente.getInputStream());
-        r.start();
+            // thread para receber mensagens do servidor
+            Recebedor r = new Recebedor(cliente.getInputStream());
+            r.start();
 
+            Scanner teclado = new Scanner(System.in);
+            PrintStream saida = new PrintStream(cliente.getOutputStream());
 
-        Scanner teclado = new Scanner(System.in);
-        PrintStream saida = new PrintStream(cliente.getOutputStream());
+            while (teclado.hasNextLine()) {
+                String s = teclado.nextLine();
+                logger.writeLog("[INFO] O cliente enviou a mensagem: " + s);
+                saida.println(s);
 
-
-        while (teclado.hasNextLine()) {
-            String s = teclado.nextLine();
-            logger.writeLog("[INFO] O cliente enviou a mensagem: " + s);
-            saida.println(s);
-
-            if (s.equals("quit")) {
-                logger.writeLog("[INFO] O cliente desconectou-se");
-                break;
+                if (s.equals("quit")) { // Para parar de enviar mensagens
+                    logger.writeLog("[INFO] O cliente desconectou-se");
+                    break;
+                }
             }
+
+            saida.close();
+            teclado.close();
+            cliente.close();
+
+        } catch (IOException e) {
+            logger.writeLog("[ERROR] Erro ao estabelecer conexão com o cliente");
         }
 
-        saida.close();
-        teclado.close();
-        cliente.close();
+
     }
 }
