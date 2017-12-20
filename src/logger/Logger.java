@@ -15,6 +15,11 @@ public class Logger {
     Date date;
     public static String SEPARATOR = File.separator;
 
+
+    /**
+     * Construtor, recebe como parametro o nome do arquivo e gera a pasta que o irá armazenar
+     * @param fileName
+     */
     public Logger(String fileName) {
 
         this.fileName = fileName;
@@ -23,6 +28,7 @@ public class Logger {
 
         File directory = new File("log");
 
+        // Cria uma pasta se ela ainda não existe
         if (!directory.exists()) {
             directory.mkdir();
         }
@@ -30,14 +36,19 @@ public class Logger {
 
     }
 
+    /**
+     * Metodo que escreve uma mensagem em um arquivo. A hora da mensagem também é escrita
+     * @param s mensagem que será escrita
+     */
     public void writeLog(String s) {
 
-
         try {
+
             FileWriter fw = new FileWriter("log" + SEPARATOR + this.fileName, true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(dateFormat.format(date) + "  |  " + s);
             bw.newLine();
+            bw.flush();
             bw.close();
             fw.close();
         } catch (IOException e) {

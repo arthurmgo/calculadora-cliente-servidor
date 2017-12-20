@@ -17,7 +17,12 @@ public class Servidor {
 
     private Endereco serverList[];
 
-
+    /**
+     * Contrutor padrão, define a sua porta, os endereços dos servidores de operacao e o tamanho maximo da cache
+     * @param porta Numero da porta utilizada por este servidor.
+     * @param serverList Lista de servidores de operação
+     * @param maxCache Tamanho máximo da cache
+     */
     public Servidor(int porta, Endereco[] serverList, int maxCache) {
 
         this.porta = porta;
@@ -30,6 +35,10 @@ public class Servidor {
 
     }
 
+    /**
+     * Metodo principal define os IPs dos servidores de operação
+     * @param args não utlizados
+     */
     public static void main(String[] args) {
 
         Endereco serverlist[] = new Endereco[4];
@@ -60,8 +69,11 @@ public class Servidor {
         return serverList[id];
     }
 
+    /**
+     * Metodo principal, este metodo estabelece conexão com um cliente e inicia uma thread para tratar cada cliente
+     * conectado.
+     */
     public void executa() {
-
 
         try {
             ServerSocket servidor = new ServerSocket(this.porta);

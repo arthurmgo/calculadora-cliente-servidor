@@ -6,16 +6,13 @@ public class Expressao {
     private Integer y;
     private String op;
 
-    public Expressao(int x, int y, String op) {
-        this.x = x;
-        this.y = y;
-        this.op = op;
-    }
-
+    /**
+     * Construtor padrão para uma expressão a partir de uma string
+     * @param st String que representa a expressão
+     */
     public Expressao(String st) {
 
-        String s = st.replaceAll("\\s", "");
-
+        String s = st.replaceAll("\\s", ""); // Remove expaçoes da expressão
 
         if (s.contains("+")) {
             this.x = Integer.parseInt(s.substring(0, s.lastIndexOf("+")));
@@ -39,7 +36,6 @@ public class Expressao {
 
         }
     }
-
 
     public int getX() {
         return x;

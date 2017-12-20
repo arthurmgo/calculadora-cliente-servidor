@@ -15,6 +15,10 @@ public class TrataClienteOP extends Thread {
         this.servidor = servidor;
     }
 
+    /**
+     * Metodo chamado ao iniciar a Thread. Faz a leitura de dois numeros do cliente e envia ao cliente o resuldado da
+     * operação entre estes numeros.
+     */
     @Override
     public void run() {
 
